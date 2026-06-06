@@ -6,6 +6,7 @@ const CommandsListener = require("./handler/CommandsListener");
 const ComponentsHandler = require("./handler/ComponentsHandler");
 const ComponentsListener = require("./handler/ComponentsListener");
 const EventsHandler = require("./handler/EventsHandler");
+const NotionWebhookWatcher = require("./NotionWebhookWatcher");
 const { QuickYAML } = require('quick-yaml.db');
 
 class DiscordBot extends Client {
@@ -33,6 +34,7 @@ class DiscordBot extends Client {
     components_handler = new ComponentsHandler(this);
     events_handler = new EventsHandler(this);
     database = new QuickYAML(config.database.path);
+    notion_webhook_watcher = new NotionWebhookWatcher(this);
 
     constructor() {
         super({
@@ -75,6 +77,7 @@ class DiscordBot extends Client {
             this.commands_handler.load();
             this.components_handler.load();
             this.events_handler.load();
+            this.notion_webhook_watcher.start();
             this.startStatusRotation();
 
             warn('Attempting to register application commands... (this might take a while!)');
