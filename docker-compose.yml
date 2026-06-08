@@ -1,0 +1,13 @@
+version: "3.8"
+
+services:
+  breach-bot:
+    build: .
+    container_name: breach-bot
+    restart: unless-stopped
+    volumes:
+      - ./database.yml:/usr/src/app/database.yml
+    environment:
+      - NODE_ENV=production
+    env_file:
+      - .env
